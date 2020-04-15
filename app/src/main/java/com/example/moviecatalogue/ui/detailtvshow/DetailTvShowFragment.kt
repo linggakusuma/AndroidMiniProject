@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.moviecatalogue.databinding.DetailTvShowFragmentBinding
-import com.example.moviecatalogue.ui.detail.DetailFragmentArgs
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -25,7 +24,7 @@ class DetailTvShowFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.getDetailTvShow(movieArgs.id)
+        viewModel.id = movieArgs.id
         return DetailTvShowFragmentBinding.inflate(inflater).apply {
             viewModel = this@DetailTvShowFragment.viewModel
             lifecycleOwner = this@DetailTvShowFragment

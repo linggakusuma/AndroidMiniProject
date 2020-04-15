@@ -11,7 +11,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -66,25 +65,18 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitBuilder(
-        moshi: Moshi
-    ): Retrofit.Builder = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-
-    @Provides
-    @Singleton
     fun provideRetrofit(
         moshi: Moshi,
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .client(okHttpClient)
         .build()
 
     @Provides
     @Singleton
-    fun provideMovieServices(retrofit: Retrofit): MovieServices = retrofit.create(MovieServices::class.java)
+    fun provideMovieServices(retrofit: Retrofit): MovieServices =
+        retrofit.create(MovieServices::class.java)
 }

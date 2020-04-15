@@ -3,16 +3,14 @@ package com.example.moviecatalogue.data.source.tvshow
 import androidx.paging.PageKeyedDataSource
 import com.example.moviecatalogue.data.remote.response.Movie
 import com.example.moviecatalogue.data.remote.services.MovieServices
-import com.example.moviecatalogue.utils.ext.disposedBy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TvShowDataSource constructor(private val movieServices: MovieServices) :
     PageKeyedDataSource<Int, Movie>() {
 
-    private val compositeDisposable = CompositeDisposable()
+    private var coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -38,14 +36,14 @@ class TvShowDataSource constructor(private val movieServices: MovieServices) :
     }
 
     private fun fetchData(page: Int, callback: (List<Movie>) -> Unit) {
-        movieServices.getTvShow(page = page)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    val movie = it.results
-                    callback(movie ?: emptyList())
-                }
-            ).disposedBy(compositeDisposable)
+        coroutineScope.launch {
+            val getMovieDeferred = movieServices.getTvShowAsync(page = page)
+            try {
+                val movie = getMovieDeferred.await().results
+                callback(movie ?: emptyList())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

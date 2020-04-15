@@ -24,7 +24,7 @@ class DetailFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.getDetailMovie(movieArgs.id)
+        viewModel.id = movieArgs.id
         return DetailFragmentBinding.inflate(inflater).apply {
             viewModel = this@DetailFragment.viewModel
             lifecycleOwner = this@DetailFragment

@@ -1,38 +1,47 @@
 package com.example.moviecatalogue.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.moviecatalogue.data.remote.response.DetailResponse
 import com.example.moviecatalogue.data.remote.services.MovieServices
-import com.example.moviecatalogue.utils.ext.disposedBy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val movieServices: MovieServices) : ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private var _detail = MutableLiveData<DetailResponse>()
     val detail: LiveData<DetailResponse>
         get() = _detail
 
+    var id: Int? = null
 
-    fun getDetailMovie(id: Int?) {
-        movieServices.getDetailMovie(id = id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    _detail.postValue(it)
-                }
-            ).disposedBy(compositeDisposable)
+    init {
+        getDetailMovie()
+    }
+
+    private fun getDetailMovie() {
+        coroutineScope.launch {
+            val getMovieDeferred = movieServices.getDetailMovieAsync(id = id)
+            try {
+                val detail = getMovieDeferred.await()
+                _detail.value = detail
+                Log.i("cekgenre", detail.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onCleared() {
-        compositeDisposable.clear()
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

@@ -27,7 +27,7 @@ class SearchFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.getSearch(movieArgs.query)
+        viewModel.query = movieArgs.query
         return SearchFragmentBinding.inflate(inflater).apply {
             viewModel = this@SearchFragment.viewModel
             recyclerViewMovieSearch.adapter = SearchAdapter()

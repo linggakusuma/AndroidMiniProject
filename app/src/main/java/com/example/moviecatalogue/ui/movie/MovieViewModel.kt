@@ -7,12 +7,12 @@ import androidx.paging.PagedList
 import com.example.moviecatalogue.data.remote.response.Movie
 import com.example.moviecatalogue.data.remote.services.MovieServices
 import com.example.moviecatalogue.data.source.movie.MovieDataSourceFactory
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Job
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(movieServices: MovieServices) : ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
+    private var viewModelJob = Job()
 
     private val dataSourceFactory = MovieDataSourceFactory(movieServices)
 
@@ -31,6 +31,6 @@ class MovieViewModel @Inject constructor(movieServices: MovieServices) : ViewMod
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+        viewModelJob.cancel()
     }
 }
