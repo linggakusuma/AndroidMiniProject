@@ -1,4 +1,4 @@
-package com.example.moviecatalogue.ui.tvshow
+package com.example.moviecatalogue.ui.searchtv
 
 import android.os.Bundle
 import android.view.*
@@ -7,29 +7,31 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.example.moviecatalogue.R
-import com.example.moviecatalogue.databinding.FragmentTvShowBinding
+import com.example.moviecatalogue.databinding.SearchTvShowFragmentBinding
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class TvShowFragment : DaggerFragment() {
+class SearchTvShowFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<TvShowViewModel> { viewModelFactory }
+    private val viewModel by viewModels<SearchTvShowViewModel> { viewModelFactory }
+
+    private val movieArgs: SearchTvShowFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentTvShowBinding.inflate(inflater).apply {
-            viewModel = this@TvShowFragment.viewModel
-            recyclerViewTvShow.adapter =
-                TvShowAdapter()
-            lifecycleOwner = this@TvShowFragment
+        viewModel.query = movieArgs.query
+        return SearchTvShowFragmentBinding.inflate(inflater).apply {
+            viewModel = this@SearchTvShowFragment.viewModel
+            recyclerViewMovieSearchTvShow.adapter = SearchTvShowAdapter()
+            lifecycleOwner = this@SearchTvShowFragment
 
             setHasOptionsMenu(true)
         }.root
@@ -55,10 +57,11 @@ class TvShowFragment : DaggerFragment() {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 findNavController().navigate(
-                    TvShowFragmentDirections.actionNavigationTvShowToSearchTvShowFragment(query.toString())
+                    SearchTvShowFragmentDirections.actionSearchTvShowFragmentSelf(query.toString())
                 )
                 return true
             }
+
         })
     }
 }

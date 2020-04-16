@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_navigation_tv_show_to_detailTvShowFragment"
             app:destination="@id/detailTvShowFragment" />
+        <action
+            android:id="@+id/action_navigation_tv_show_to_searchTvShowFragment"
+            app:destination="@id/searchTvShowFragment" />
     </fragment>
 
     <fragment
@@ -71,5 +74,20 @@
         <argument
             android:name="title"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchTvShowFragment"
+        android:name="com.example.moviecatalogue.ui.searchtv.SearchTvShowFragment"
+        android:label="Search Tv Show"
+        tools:layout="@layout/search_tv_show_fragment">
+        <argument
+            android:name="query"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchTvShowFragment_to_detailTvShowFragment"
+            app:destination="@id/detailTvShowFragment" />
+        <action
+            android:id="@+id/action_searchTvShowFragment_self"
+            app:destination="@id/searchTvShowFragment" />
     </fragment>
 </navigation>

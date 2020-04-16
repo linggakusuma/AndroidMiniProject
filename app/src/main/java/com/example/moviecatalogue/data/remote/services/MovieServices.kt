@@ -34,7 +34,14 @@ interface MovieServices {
     ): Deferred<DetailResponse>
 
     @GET("search/movie")
-    fun getSearchAsync(
+    fun getSearchMovieAsync(
+        @Query("api_key") apiKey: String? = BuildConfig.TMDB_API_KEY,
+        @Query("query") query: String?,
+        @Query("page") page: Int? = 1
+    ): Deferred<MovieResponse>
+
+    @GET("search/tv")
+    fun getSearchTvAsync(
         @Query("api_key") apiKey: String? = BuildConfig.TMDB_API_KEY,
         @Query("query") query: String?,
         @Query("page") page: Int? = 1

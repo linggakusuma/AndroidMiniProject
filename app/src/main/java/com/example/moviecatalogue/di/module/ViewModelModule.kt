@@ -7,6 +7,7 @@ import com.example.moviecatalogue.ui.detail.DetailViewModel
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowViewModel
 import com.example.moviecatalogue.ui.movie.MovieViewModel
 import com.example.moviecatalogue.ui.search.SearchViewModel
+import com.example.moviecatalogue.ui.searchtv.SearchTvShowViewModel
 import com.example.moviecatalogue.ui.tvshow.TvShowViewModel
 import com.example.moviecatalogue.utils.ViewModelFactory
 import dagger.Binds
@@ -42,4 +43,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     internal abstract fun searchViewMode(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchTvShowViewModel::class)
+    internal abstract fun searchTvViewModel(viewModel: SearchTvShowViewModel): ViewModel
 }

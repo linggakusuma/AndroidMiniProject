@@ -5,6 +5,7 @@ import com.example.moviecatalogue.ui.detail.DetailFragment
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowFragment
 import com.example.moviecatalogue.ui.movie.MovieFragment
 import com.example.moviecatalogue.ui.search.SearchFragment
+import com.example.moviecatalogue.ui.searchtv.SearchTvShowFragment
 import com.example.moviecatalogue.ui.tvshow.TvShowFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -30,4 +31,8 @@ abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     abstract fun contributeSearchFragment(): SearchFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract fun contributeSearchTvShowFragment(): SearchTvShowFragment
 }

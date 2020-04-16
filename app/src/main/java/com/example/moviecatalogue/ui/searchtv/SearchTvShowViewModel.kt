@@ -1,4 +1,4 @@
-package com.example.moviecatalogue.ui.search
+package com.example.moviecatalogue.ui.searchtv
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
@@ -11,28 +11,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val movieServices: MovieServices) :
+class SearchTvShowViewModel @Inject constructor(private val movieServices: MovieServices) :
     BaseViewModel() {
 
     private var coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    private var _search = MutableLiveData<List<Movie>>()
-    val search: LiveData<List<Movie>>
-        get() = _search
+    private var _searchTvShow = MutableLiveData<List<Movie>>()
+    val searchTvShow: LiveData<List<Movie>>
+        get() = _searchTvShow
 
     var query: String? = null
 
     init {
-        getSearchMovie()
+        getSearchTvShow()
     }
 
-    private fun getSearchMovie() {
+    private fun getSearchTvShow() {
         coroutineScope.launch {
-            val getSearchMovieDeferred = movieServices.getSearchMovieAsync(query = query)
             try {
-                val listSearchMovie = getSearchMovieDeferred.await().results
-                _search.value = listSearchMovie
-
+                val getSearchTvShow = movieServices.getSearchTvAsync(query = query).await().results
+                _searchTvShow.value = getSearchTvShow
             } catch (e: NetworkErrorException) {
                 e.printStackTrace()
             }

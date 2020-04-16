@@ -1,18 +1,15 @@
 package com.example.moviecatalogue.ui.movie
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.moviecatalogue.data.remote.response.Movie
 import com.example.moviecatalogue.data.remote.services.MovieServices
 import com.example.moviecatalogue.data.source.movie.MovieDataSourceFactory
-import kotlinx.coroutines.Job
+import com.example.moviecatalogue.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class MovieViewModel @Inject constructor(movieServices: MovieServices) : ViewModel() {
-
-    private var viewModelJob = Job()
+class MovieViewModel @Inject constructor(movieServices: MovieServices) : BaseViewModel() {
 
     private val dataSourceFactory = MovieDataSourceFactory(movieServices)
 
@@ -27,10 +24,5 @@ class MovieViewModel @Inject constructor(movieServices: MovieServices) : ViewMod
 
     init {
         movie = LivePagedListBuilder(dataSourceFactory, config).build()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }
