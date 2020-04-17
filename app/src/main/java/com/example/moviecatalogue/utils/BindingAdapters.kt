@@ -40,10 +40,19 @@ fun recyclerViewTvShowSearch(recyclerView: RecyclerView, data: List<Movie>?) {
 }
 
 @BindingAdapter("imageMovie")
-fun bindImage(imgView: ImageView, imgUrl: String?) {
+fun bindImageMovie(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(imgView.context)
             .load("https://image.tmdb.org/t/p/w500/$imgUrl")
             .into(imgView)
+    }
+}
+
+@BindingAdapter("image")
+fun bindImage(imageView: ImageView,imgUrl: String?){
+    imgUrl.let {
+        Glide.with(imageView.context)
+            .load(it)
+            .into(imageView)
     }
 }

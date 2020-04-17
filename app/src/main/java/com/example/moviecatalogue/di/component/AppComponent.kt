@@ -3,6 +3,7 @@ package com.example.moviecatalogue.di.component
 import android.app.Application
 import com.example.moviecatalogue.di.module.ActivityModule
 import com.example.moviecatalogue.di.module.NetworkModule
+import com.example.moviecatalogue.di.module.RoomModule
 import com.example.moviecatalogue.di.module.ViewModelModule
 import com.example.moviecatalogue.ui.base.BaseApplication
 import dagger.BindsInstance
@@ -20,7 +21,8 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         NetworkModule::class,
         ViewModelModule::class,
-        ActivityModule::class
+        ActivityModule::class,
+        RoomModule::class
     ]
 )
 
@@ -31,7 +33,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
     override fun inject(instance: DaggerApplication)
 
     @Component.Builder
-    interface Builder{
+    interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
 

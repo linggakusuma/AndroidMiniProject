@@ -35,7 +35,7 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.moviecatalogue.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.moviecatalogue.ui.detail.DetailFragment"

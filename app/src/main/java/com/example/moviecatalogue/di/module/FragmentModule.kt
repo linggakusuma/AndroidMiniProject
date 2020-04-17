@@ -4,6 +4,7 @@ import com.example.moviecatalogue.di.scope.FragmentScoped
 import com.example.moviecatalogue.ui.detail.DetailFragment
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowFragment
 import com.example.moviecatalogue.ui.movie.MovieFragment
+import com.example.moviecatalogue.ui.profile.ProfileFragment
 import com.example.moviecatalogue.ui.search.SearchFragment
 import com.example.moviecatalogue.ui.searchtv.SearchTvShowFragment
 import com.example.moviecatalogue.ui.tvshow.TvShowFragment
@@ -35,4 +36,8 @@ abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     abstract fun contributeSearchTvShowFragment(): SearchTvShowFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract fun contributeProfileFragment(): ProfileFragment
 }

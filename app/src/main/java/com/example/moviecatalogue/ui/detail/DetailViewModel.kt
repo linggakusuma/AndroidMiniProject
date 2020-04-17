@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.moviecatalogue.data.remote.response.DetailResponse
 import com.example.moviecatalogue.data.remote.services.MovieServices
 import com.example.moviecatalogue.ui.base.BaseViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,6 @@ class DetailViewModel @Inject constructor(private val movieServices: MovieServic
             try {
                 val detail = getMovieDeferred.await()
                 _detail.value = detail
-                Log.i("cekgenre", detail.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -6,6 +6,7 @@ import com.example.moviecatalogue.di.scope.ViewModelKey
 import com.example.moviecatalogue.ui.detail.DetailViewModel
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowViewModel
 import com.example.moviecatalogue.ui.movie.MovieViewModel
+import com.example.moviecatalogue.ui.profile.ProfileViewModel
 import com.example.moviecatalogue.ui.search.SearchViewModel
 import com.example.moviecatalogue.ui.searchtv.SearchTvShowViewModel
 import com.example.moviecatalogue.ui.tvshow.TvShowViewModel
@@ -48,4 +49,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchTvShowViewModel::class)
     internal abstract fun searchTvViewModel(viewModel: SearchTvShowViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    internal abstract fun profileViewModel(viewModel: ProfileViewModel): ViewModel
 }
