@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.databinding.ActivityLoginBinding
 import com.example.moviecatalogue.ui.MainActivity
-import com.example.moviecatalogue.ui.profile.ProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -26,7 +25,7 @@ class LoginActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
+    private val viewModel by viewModels<LoginViewModel> { viewModelFactory }
 
     companion object {
         const val RC_SIGN_IN: Int = 1
@@ -95,8 +94,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
+        if (firebaseAuth.currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()

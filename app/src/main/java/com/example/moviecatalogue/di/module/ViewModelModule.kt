@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalogue.di.scope.ViewModelKey
 import com.example.moviecatalogue.ui.detail.DetailViewModel
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowViewModel
+import com.example.moviecatalogue.ui.login.LoginViewModel
 import com.example.moviecatalogue.ui.movie.MovieViewModel
 import com.example.moviecatalogue.ui.profile.ProfileViewModel
 import com.example.moviecatalogue.ui.search.SearchViewModel
@@ -54,4 +55,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     internal abstract fun profileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel::class)
+    internal abstract fun loginViewModel(viewModel: LoginViewModel): ViewModel
 }

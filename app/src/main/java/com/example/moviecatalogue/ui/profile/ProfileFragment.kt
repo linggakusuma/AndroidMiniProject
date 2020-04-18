@@ -29,7 +29,7 @@ class ProfileFragment : DaggerFragment() {
             viewModel = this@ProfileFragment.viewModel
             lifecycleOwner = this@ProfileFragment
             buttonlogout.setOnClickListener {
-                this@ProfileFragment.viewModel.onClear()
+                viewModel?.onClear()
                 logout()
             }
         }.root

@@ -1,7 +1,5 @@
 package com.example.moviecatalogue.ui.profile
 
-import androidx.lifecycle.MutableLiveData
-import com.example.moviecatalogue.data.local.entities.User
 import com.example.moviecatalogue.data.local.room.Database
 import com.example.moviecatalogue.ui.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -14,32 +12,7 @@ class ProfileViewModel @Inject constructor(private val database: Database) : Bas
 
     private val coroutinScope = CoroutineScope(Dispatchers.Main)
 
-    private var currentUser = MutableLiveData<User>()
-
-    val user = database.userDao().getUser()
-
-    private suspend fun getUserFromDatabase(): User? {
-        return withContext(Dispatchers.IO) {
-            val user = database.userDao().getCurrentUser()
-            user
-        }
-    }
-
-    fun onSave() {
-        coroutinScope.launch {
-            val newNight = User()
-
-            insert(newNight)
-
-            currentUser.value = getUserFromDatabase()
-        }
-    }
-
-    private suspend fun insert(user: User) {
-        withContext(Dispatchers.IO) {
-            database.userDao().insertUser(user)
-        }
-    }
+    var user = database.userDao().getUser()
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
@@ -50,7 +23,6 @@ class ProfileViewModel @Inject constructor(private val database: Database) : Bas
     fun onClear() {
         coroutinScope.launch {
             clear()
-            currentUser.value = null
         }
     }
 }
