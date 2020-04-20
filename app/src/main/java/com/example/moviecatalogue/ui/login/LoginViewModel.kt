@@ -28,7 +28,7 @@ class LoginViewModel @Inject constructor(private val database: Database) : BaseV
             uid = auth?.uid ?: "",
             name = auth?.displayName,
             email = auth?.email,
-            phoneNumber = auth?.phoneNumber,
+            phoneNumber = auth?.phoneNumber ?: "-",
             image = getUrl()
         )
     }

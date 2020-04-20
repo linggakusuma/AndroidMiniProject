@@ -109,5 +109,33 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/editName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/textName"
+            app:layout_constraintTop_toTopOf="@+id/textView3"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+        <ImageView
+            android:id="@+id/editEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/textEmail"
+            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            tools:ignore="ContentDescription,PrivateResource" />
+
+        <ImageView
+            android:id="@+id/editPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/textPhoneNumber"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            tools:ignore="ContentDescription,PrivateResource" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

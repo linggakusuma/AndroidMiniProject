@@ -1,5 +1,6 @@
 package com.example.moviecatalogue.ui.profile
 
+import com.example.moviecatalogue.data.local.entities.User
 import com.example.moviecatalogue.data.local.room.Database
 import com.example.moviecatalogue.ui.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,36 @@ class ProfileViewModel @Inject constructor(private val database: Database) : Bas
     fun onClear() {
         coroutinScope.launch {
             clear()
+        }
+    }
+
+    fun onUpdateEmail(email: String) {
+        coroutinScope.launch {
+            val currentUser = user.value
+            currentUser?.email = email
+            user.value?.let { update(it) }
+        }
+    }
+
+    fun onUpdateName(name: String) {
+        coroutinScope.launch {
+            val currentUser = user.value
+            currentUser?.name = name
+            user.value?.let { update(it) }
+        }
+    }
+
+    fun onUpdatePhoneNumber(phoneNumber: String) {
+        coroutinScope.launch {
+            val currentUser = user.value
+            currentUser?.phoneNumber = phoneNumber
+            user.value?.let { update(it) }
+        }
+    }
+
+    private suspend fun update(user: User) {
+        withContext(Dispatchers.IO) {
+            database.userDao().updateUser(user)
         }
     }
 }
