@@ -1,6 +1,7 @@
 package com.example.moviecatalogue.ui.profile
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -15,6 +16,7 @@ import com.example.moviecatalogue.ui.profile.bottomsheet.EmailBottomSheet
 import com.example.moviecatalogue.ui.profile.bottomsheet.NameBottomSheet
 import com.example.moviecatalogue.ui.profile.bottomsheet.PhoneNumberBottomSheet
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -22,6 +24,8 @@ class ProfileFragment : DaggerFragment() {
 
     companion object {
         const val RESULT_LOAD_IMAGE = 1003
+        val TAG = ProfileFragment::class.java.simpleName
+        const val KEY_SF = "key_sf"
     }
 
     @Inject
@@ -36,9 +40,12 @@ class ProfileFragment : DaggerFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(inflater).apply {
+        return FragmentProfileBinding.inflate(inflater).apply {
             viewModel = this@ProfileFragment.viewModel
             lifecycleOwner = this@ProfileFragment
+
+            val sharedPreferences = activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)
+            switchNotif.isChecked = sharedPreferences?.getBoolean(KEY_SF, false) ?: false
 
             editName.setOnClickListener {
                 setName()
@@ -60,8 +67,24 @@ class ProfileFragment : DaggerFragment() {
                 viewModel?.onClear()
                 logout()
             }
-        }
-        return binding.root
+
+            switchNotif.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("movie")
+                    activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)?.edit()?.apply {
+                        putBoolean(KEY_SF, true)
+                        apply()
+                    }
+                } else {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("movie")
+                    activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)?.edit()?.apply {
+                        putBoolean(KEY_SF, false)
+                        apply()
+                    }
+                }
+            }
+
+        }.root
     }
 
     private fun logout() {
