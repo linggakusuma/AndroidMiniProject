@@ -1,15 +1,19 @@
 package com.example.moviecatalogue.ui.profile
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalogue.databinding.FragmentProfileBinding
 import com.example.moviecatalogue.ui.login.LoginActivity
+import com.example.moviecatalogue.ui.profile.bottomsheet.EmailBottomSheet
+import com.example.moviecatalogue.ui.profile.bottomsheet.NameBottomSheet
+import com.example.moviecatalogue.ui.profile.bottomsheet.PhoneNumberBottomSheet
 import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -17,9 +21,7 @@ import javax.inject.Inject
 class ProfileFragment : DaggerFragment() {
 
     companion object {
-        const val EXTRA_NAME = "extra_name"
-        const val EXTRA_EMAIL = "extra_email"
-        const val EXTRA_PHONE_NUMBER = "extra_phone_number"
+        const val RESULT_LOAD_IMAGE = 1003
     }
 
     @Inject
@@ -27,15 +29,14 @@ class ProfileFragment : DaggerFragment() {
 
     private val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
 
-    private val bottomSheetDialogFragment = BottomSheetDialogFragment()
-    private val bundle = Bundle()
+    private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentProfileBinding.inflate(inflater).apply {
+        binding = FragmentProfileBinding.inflate(inflater).apply {
             viewModel = this@ProfileFragment.viewModel
             lifecycleOwner = this@ProfileFragment
 
@@ -51,11 +52,16 @@ class ProfileFragment : DaggerFragment() {
                 setPhoneNumber()
             }
 
+            imgUser.setOnClickListener {
+                openGallery()
+            }
+
             buttonlogout.setOnClickListener {
                 viewModel?.onClear()
                 logout()
             }
-        }.root
+        }
+        return binding.root
     }
 
     private fun logout() {
@@ -68,10 +74,8 @@ class ProfileFragment : DaggerFragment() {
     }
 
     private fun setName() {
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            bundle.putString(EXTRA_NAME, it.name ?: "")
-            bottomSheetDialogFragment.arguments = bundle
-        })
+        val bottomSheetDialogFragment =
+            NameBottomSheet()
         activity?.supportFragmentManager?.let { supportFragment ->
             bottomSheetDialogFragment.show(
                 supportFragment,
@@ -81,10 +85,8 @@ class ProfileFragment : DaggerFragment() {
     }
 
     private fun setEmail() {
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            bundle.putString(EXTRA_EMAIL, it.email ?: "")
-            bottomSheetDialogFragment.arguments = bundle
-        })
+        val bottomSheetDialogFragment =
+            EmailBottomSheet()
         activity?.supportFragmentManager?.let { supportFragment ->
             bottomSheetDialogFragment.show(
                 supportFragment,
@@ -94,15 +96,26 @@ class ProfileFragment : DaggerFragment() {
     }
 
     private fun setPhoneNumber() {
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            bundle.putString(EXTRA_PHONE_NUMBER, it.phoneNumber ?: "")
-            bottomSheetDialogFragment.arguments = bundle
-        })
+        val bottomSheetDialogFragment =
+            PhoneNumberBottomSheet()
         activity?.supportFragmentManager?.let { supportFragment ->
             bottomSheetDialogFragment.show(
                 supportFragment,
                 bottomSheetDialogFragment.tag
             )
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, RESULT_LOAD_IMAGE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == RESULT_LOAD_IMAGE) {
+            val uri = data?.data
+            viewModel.onUpdateImage(uri.toString())
         }
     }
 }

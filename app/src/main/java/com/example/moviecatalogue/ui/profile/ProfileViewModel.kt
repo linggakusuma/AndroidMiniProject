@@ -51,6 +51,14 @@ class ProfileViewModel @Inject constructor(private val database: Database) : Bas
         }
     }
 
+    fun onUpdateImage(uri: String) {
+        coroutinScope.launch {
+            val currentUser = user.value
+            currentUser?.image = uri
+            user.value?.let { update(it) }
+        }
+    }
+
     private suspend fun update(user: User) {
         withContext(Dispatchers.IO) {
             database.userDao().updateUser(user)

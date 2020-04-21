@@ -4,8 +4,10 @@ import com.example.moviecatalogue.di.scope.FragmentScoped
 import com.example.moviecatalogue.ui.detail.DetailFragment
 import com.example.moviecatalogue.ui.detailtvshow.DetailTvShowFragment
 import com.example.moviecatalogue.ui.movie.MovieFragment
-import com.example.moviecatalogue.ui.profile.BottomSheetDialogFragment
 import com.example.moviecatalogue.ui.profile.ProfileFragment
+import com.example.moviecatalogue.ui.profile.bottomsheet.EmailBottomSheet
+import com.example.moviecatalogue.ui.profile.bottomsheet.NameBottomSheet
+import com.example.moviecatalogue.ui.profile.bottomsheet.PhoneNumberBottomSheet
 import com.example.moviecatalogue.ui.search.SearchFragment
 import com.example.moviecatalogue.ui.searchtv.SearchTvShowFragment
 import com.example.moviecatalogue.ui.tvshow.TvShowFragment
@@ -44,5 +46,13 @@ abstract class FragmentModule {
 
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract fun contributeBottomSheetDialogFragment(): BottomSheetDialogFragment
+    abstract fun contributeNameBottomSheet(): NameBottomSheet
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract fun contributeEmailBottomSheet(): EmailBottomSheet
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract fun contributePhoneNumberBottomSheet(): PhoneNumberBottomSheet
 }
