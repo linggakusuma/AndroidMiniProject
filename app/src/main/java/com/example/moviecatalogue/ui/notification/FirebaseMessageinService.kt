@@ -20,14 +20,14 @@ class FirebaseMessageinService : FirebaseMessagingService() {
         private val TAG = FirebaseMessageinService::class.java.simpleName
     }
 
-    override fun onNewToken(p0: String?) {
+    override fun onNewToken(p0: String) {
         super.onNewToken(p0)
         Log.d(TAG, "refresehd token $p0")
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        sendNotification(remoteMessage?.notification?.body)
+        sendNotification(remoteMessage.notification?.body)
     }
 
     private fun sendNotification(messageBody: String?) {
