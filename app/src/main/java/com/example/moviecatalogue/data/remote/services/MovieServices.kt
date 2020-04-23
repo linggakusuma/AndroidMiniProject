@@ -46,4 +46,9 @@ interface MovieServices {
         @Query("query") query: String?,
         @Query("page") page: Int? = 1
     ): Deferred<MovieResponse>
+
+    @GET("movie/now_playing")
+    fun getMovieNowPlayingAsync(
+        @Query("api_key") apiKey: String? = BuildConfig.TMDB_API_KEY
+    ): Deferred<MovieResponse>
 }

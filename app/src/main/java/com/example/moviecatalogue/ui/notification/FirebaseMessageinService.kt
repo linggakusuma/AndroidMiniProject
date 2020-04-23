@@ -10,7 +10,6 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.moviecatalogue.R
-import com.example.moviecatalogue.ui.Main2Activity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -34,7 +33,7 @@ class FirebaseMessageinService : FirebaseMessagingService() {
         val channelId = getString(R.string.channel_id)
         val channelName = getString(R.string.channel_name)
 
-        val intent = Intent(this, Main2Activity::class.java).apply {
+        val intent = Intent(this, MovieNotificationActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         val pendingIntent = PendingIntent.getActivity(

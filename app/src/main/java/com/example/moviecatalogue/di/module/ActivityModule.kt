@@ -3,6 +3,7 @@ package com.example.moviecatalogue.di.module
 import com.example.moviecatalogue.di.scope.ActivityScoped
 import com.example.moviecatalogue.ui.MainActivity
 import com.example.moviecatalogue.ui.login.LoginActivity
+import com.example.moviecatalogue.ui.notification.MovieNotificationActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -15,4 +16,8 @@ abstract class ActivityModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract fun contributeLoginActivity(): LoginActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun contributeMovieNotificationActivity(): MovieNotificationActivity
 }
